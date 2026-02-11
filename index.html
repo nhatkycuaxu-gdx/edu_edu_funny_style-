@@ -3,111 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang cợt nhả</title>
+    <title>CÓ PHẢI LÀ CALI ?</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #000; color: #fff; padding: 15px; line-height: 1.5; }
-        .container { max-width: 600px; margin: auto; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #222; }
-        h1, h2 { color: #2ecc71; text-align: center; }
-        .quiz-box { background: #1a1a1a; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .ans-btn { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #222; color: white; border: 1px solid #2ecc71; border-radius: 8px; cursor: pointer; font-size: 15px; }
-        .ans-btn:hover { background: #2ecc71; color: #000; }
-        #msg { height: 25px; font-weight: bold; margin-top: 10px; }
-        .stats { font-size: 14px; color: #888; margin-bottom: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #ffffff; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 500px; width: 100%; background: #151515; padding: 25px; border-radius: 20px; border: 2px solid #2ecc71; box-shadow: 0 0 20px rgba(46, 204, 113, 0.2); }
+        h1 { color: #2ecc71; text-align: center; text-transform: uppercase; font-size: 22px; margin-bottom: 10px; }
+        .news-update { font-size: 14px; text-align: center; color: #888; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; 
+        .quiz-box { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; }
+        .stat-bar { font-size: 13px; color: #2ecc71; margin-bottom: 15px; font-weight: bold; }
+        #q { font-size: 18px; font-weight: bold; margin-bottom: 20px; line-height: 1.4; }
+        .ans-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; background: #2a2a2a; color: white; border: 1px solid #333; border-radius: 10px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .ans-btn:hover { background: #2ecc71; color: #000; font-weight: bold; border-color: #fff; }
+        #msg { height: 30px; font-weight: bold; font-size: 18px; margin-top: 15px; }
+
+        .result-card { animation: fadeIn 0.5s ease; }
+        .score-num { font-size: 50px; color: #2ecc71; font-weight: bold; margin: 15px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>BẢN TIN VÃI CẢ CHƯỞNG</h1>
-        <p style="text-align:center;">Nóng: Tiệm phở Bảo Gay vẫn đang rất đông khách! vì ở đó được lọ</p>
-        
-        <div class="quiz-box">
-            <div class="stats" id="stat">Câu hỏi: 1/50</div>
-            <p id="q" style="font-size: 17px; font-weight: bold; color: #2ecc71;">Đang tải...</p>
-            <div id="btns"></div>
-            <p id="msg"></p>
-        </div>
+
+<div class="container">
+    <h1>BẢN TIN VÃI CẢ CHƯỞNG</h1>
+    <div class="news-update">Nóng: Tiệm phở Bảo vẫn đang rất đông khách vì ở đó được lọ với thằng bạn và có thịt chó loài cali ăn vô chết vì có 99,99% là muối!</div>
+
+    <div id="game-area" class="quiz-box">
+        <div class="stat-bar" id="stat">Đang tải câu hỏi...</div>
+        <p id="q"></p>
+        <div id="btns"></div>
+        <p id="msg"></p>
     </div>
+</div>
 
-    <script>
-        const data = [
-            {q: "Đỉnh núi cao nhất Nam Bộ", a: ["Fansipan", "Bà Đen", "Dong Tinh"], c: 1},
-            {q: "Sông nào có đôi có tình ?", a: ["Sông Hồng", "Sông Vàm Cỏ", "Sông Vàm Cọp ăn daj"], c: 1},
-            {q: "Thủ đô của Việt Nam là?", a: ["TP.HCM", " Tây Ninh", "Hà Nội"], c: 2},
-            {q: "Quốc hoa của Việt Nam?", a: ["Hoa Tết", "Hoa Sen", "Hoa Mai"], c: 1},
-            {q: "Bánh chưng làm từ gạo gì?", a: ["Gạo tẻ", "Gạo lứt", "Gạo nếp"], c: 2},
-            {q: "Vua cuối cùng của VN?", a: ["Bảo Đại", "Duy Tân", "Hàm Nghi"], c: 0},
-            {q: "Đảo lớn nhất Việt Nam?", a: ["Phú Quý", "Phú Quốc", "Cát Bà"], c: 1},
-            {q: "Ngày Quốc khánh Việt Nam?", a: ["2/9", "30/4", "cali con cac"], c: 0},
-            {q: "Thành phố ngàn hoa là?", a: ["Đà Lạt", "Sa Pa", "biển người Vũng Tàu"], c: 0},
-            {q: "Vịnh nào là di sản thế giới?", a: ["Vịnh Bắc Bộ", "Vịnh Hạ Long", "Vịnh Cám Rảnh"], c: 1},
-            {q: "Ai viết Nam quốc sơn hà?", a: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Quang Trung"], c: 0},
-            {q: "Tỉnh nào có diện tích lớn nhất trước 1/7?", a: ["Gia Lai", "Nghệ An", "Sơn La"], c: 1},
-            {q: "Động vật biểu tượng của SEA Games 31?", a: ["Trâu vàng", "Sao la", "Chim lạc"], c: 1},
-            {q: "Hồ nào lớn nhất Hà Nội?", a: ["Hồ Gươm", "Hồ Tây", "Thỏ Bảy Màu"], c: 1},
-            {q: "Trái cây nào là đặc sản của Tiền Giang?", a: ["Vú sữa Lò Rèn", "Sầu riêng", "Xoài cát"], c: 0},
-            {q: "Sông nào chia cắt Đàng Trong - Đàng Ngoài?", a: ["Sông Gianh", "Sông Bến Hải", "Sông Hương"], c: 0},
-            {q: "Nhà thơ được mệnh danh Bà chúa thơ Nôm?", a: ["Đoàn Thị Điểm", "Hồ Xuân Hương", "Bà Huyện Thanh Quan"], c: 1},
-            {q: "Đội tuyển bóng đá nam VN vô địch AFF Cup mấy lần?", a: ["1 lần", "2 lần", "Vô Địch"], c: 2},
-            {q: "Dân tộc nào đông dân nhất VN?", a: ["K lờ cu", "Kinh", "Mướp"], c: 1},
-            {q: "Tỉnh nào ở cực Nam Việt Nam?", a: ["Cà Mau", "xứ dở Bạc Liêu", "Tào Lao"], c: 0},
-            {q: "Phố cổ Hội An thuộc tỉnh nào?", a: ["Đà Nẵng", "Quảng Bình", "Quảng Nam"], c: 2},
-            {q: "Núi Bà Đen thuộc tỉnh nào?", a: ["Tây Ninh", "Chợ Lớn", " Bến Đức"], c: 0},
-            {q: "Món ăn nào là quốc hồn quốc túy?", a: ["Bún chả", "Phở", "Bánh mì"], c: 1},
-            {q: "Tết Hàn Thực ăn bánh gì?", a: ["Bánh chưng", "Bánh trôi", "Bánh gì chả được"], c: 2},
-            {q: "Chiến dịch Điện Biên Phủ năm nào?", a: ["1945", "1954", "1975"], c: 1},
-            {q: "Cây gì biểu tượng cho làng quê VN?", a: ["Cây Móng Bò", "Cây Tre", "Cây Đa"], c: 1},
-            {q: "Lễ hội Chùa Hương ở tỉnh nào?", a: ["Hà Nội", "Hà Nam", "Hà Tây"], c: 2},
-            {q: "Trạng lường là ai?", a: ["Lương Thế Vinh", "Nguyễn Hiền", "Mạc Đĩnh Chi"], c: 0},
-            {q: "VN gia nhập WTO năm nào?", a: ["2006", "2007", "2008"], c: 1},
-            {q: "Cao nguyên đá nào ở Hà Giang?", a: ["Đồng Văn", "Mộc Châu", "Pleiku"], c: 0},
-            {q: "Sông nào chảy qua Cố đô Huế?", a: ["Sông Hàn", "Sông Hương", "Sông Trà Khíc"], c: 1},
-            {q: "Đèo nào dài nhất Việt Nam?", a: ["Đèo Hải Vân", "Đèo Pha Đinh", "Đèo Ô Quy Hồ"], c: 2},
-            {q: "Công trình thủy điện lớn nhất VN?", a: ["Hòa Bình", "Sơn La", "Trị An"], c: 1},
-            {q: "Con vật nào đứng đầu 12 con giáp?", a: ["Sửu", "Tý", "Ngọ"], c: 1},
-            {q: "Loại nhạc cụ nào của Tây Nguyên?", a: ["Đàn Bầu", "Cồng Chiêng", "Sáo Trúc"], c: 1},
-            {q: "Nước ta có bao nhiêu dân tộc anh em?", a: ["52", "54", "30/04"], c: 1},
-            {q: "Tác giả của Truyện Kiều?", a: ["Nguyễn Khuyến", "Nguyễn Du", "Nguyễn Trãi"], c: 1},
-            {q: "Hang động lớn nhất thế giới ở VN là?", a: ["Sơn Đoòng", "Phong Nha", "Thiên Đường trong tiệm phở của anh hai"], c: 0},
-            {q: "Bún bò là đặc sản ở đâu?", a: ["Huế", "Nam Định", "Quảng Nảm"], c: 0},
-            {q: "Hội Gióng ở đâu?", a: ["Sóc Sơn", "Đông Anh", "Gia Làm ơn"], c: 0},
-            {q: "Quần đảo Trường Sa thuộc tỉnh nào?", a: ["Đà Nẵng", "Khánh Hòa", "Bình Thuận"], c: 1},
-            {q: "Trận Bạch Đằng năm 938 do ai chỉ huy?", a: ["Lê Hoàn", "Ngô Quyền", "Trần Hưng Đạo"], c: 1},
-            {q: "Mùa nào có hoa sữa ở Hà Nội?", a: ["Mùa để nấu bánh chưng", "Mùa Thu", "Mùa Kiệt xe"], c: 1},
-            {q: "Hát Quan họ là đặc sản tỉnh nào?", a: ["Bắc Giang", "Bắc Ninh", "Rau Má để nấu canh"], c: 1},
-            {q: "Tỉnh nào có nhiều đảo nhất VN?", a: ["Quảng Ninh", "Kiến Thức Giang", "Khánh Hòa"], c: 0},
-            {q: "Đại tướng đầu tiên của VN?", a: ["Võ Nguyên Giáp", "Văn Tiến Dũng", "Nguyễn Chí Thanh"], c: 0},
-            {q: "Cầu Vàng ở đâu?", a: ["Huế", "Đà Nẵng", "Năm mới rồi"], c: 1},
-            {q: "Hệ điều hành của iPhone tên là gì?", a: ["Ảndroid", "iOS", "wu bu"], c: 1},
-            {q: "1 + 1 bằng mấy?", a: ["1", "2", "3"], c: 2},
-            {q: "Bạn có phải là Cali không?", a: ["Có", "Không", "Có lẽ"], c: 1}
-        ];
+<script>
+    const data = [
+        {q: "Đỉnh núi cao nhất Nam Bộ?", a: ["Fansipan", "Bà Đen", "Mẫu Anh Đẹp Trai"], c: 1},
+        {q: "Ông Táo cưỡi con gì về trời?", a: ["Cá mập", "Con Cò", "Cá lóc"], c: 1},
+        {q: "Bánh chưng làm từ gạo gì?", a: ["Gạo tẻ", "Gạo lứt", "Gạo nếp"], c: 2},
+        {q: "Thủ đô của Việt Nam là?", a: ["Hà Nội", "TP.HCM", " Sài Lọ"], c: 0},
+        {q: "Tỉnh nào ở cực Nam Việt Nam?", a: ["Cà Mau", "xứ dở Bạc Liêu", "Kinh Kịch Phát Giang"], c: 0},
+        {q: "Núi Bà Đen thuộc tỉnh nào?", a: ["Như câu 3", "Tây Ninh", "Như Câu 1"], c: 1},
+        {q: "Bạn có phải là Cali không?", a: ["Có", "Không", "Có lẽ"], c: 0,1,2},
+        {q: "Sông nào dài nhất chảy qua VN?", a: ["Sông Hồng", "Sông Mê Kông", "Sông Mã Lai lấy au"], c: 1},
+        {q: "Vua cuối cùng của Việt Nam?", a: ["Bảo Đại", "Khải Định", "Minh Mạng"], c: 0},
+        {q: "Quốc hoa của Việt Nam là hoa gì?", a: ["Hoa Hồng", "Hoa Sen", "Hoa Mai"], c: 1},
+        {q: "1 + 1 bằng mấy?", a: ["1", "2", "3"], c: 1,2},
+        {q: "Sông có đôi là Sông gì ?", a: ["Sông Vàm Cọp ăn dáj", "Sông sợ ma", "Sông Vàm Cỏ"], c: 2},
+        {q: "CÓ YÊU NƯỚC KHÔNG", a: ["CÓ", " KHÔNG"], c: 0},
+        {q: "Mùa Hoa sữa là vào mùa nào?, a: ["Mùa Mọi thứ thành biển", "Mùa kẹt xe", "Mùa Thu", "MÙA YÊU NƯỚC"], c:2
+        {q: "Nước ta có bao nhiêu dân tộc anh em?", a: ["52", "54", "faboohk"], c: 1},
+        {q: "Thành phố ngàn hoa là?", a: ["Đà Lạt", "Cần Sa   Pha", "Huế"], c: 0},
+        {q: "CALI Kiêu gì?", a: ["Gâu Gâu", "Đua Càng", "Khác NƯỚC QUÁ"], c: 1,2},
+        {q: "Vịnh nào là di sản thế giới?", a: ["Vịnh Bắc Bộ", "Vịnh Hạ Long", "Vịnh Càm Rành"], c: 1},
+        {q: "Đảo lớn nhất Việt Nam?", a: ["Phú Quý", "Phú Quốc", "Đảo Bi Nhỏ"], c: 1}
+    ];
 
-        let cur = 0;
-        function load() {
-            const item = data[cur];
-            document.getElementById('stat').innerText = `Câu hỏi: ${cur + 1}/50`;
-            document.getElementById('q').innerText = item.q;
-            const b = document.getElementById('btns'); b.innerHTML = '';
-            item.a.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'ans-btn'; btn.innerText = opt;
-                btn.onclick = () => {
-                    const isRight = (i === item.c);
-                    const msg = document.getElementById('msg');
-                    if (isRight) {
-                        msg.innerText = "Cali con cac"; msg.style.color = "#2ecc71";
-                    } else {
-                        msg.innerText = "Sai rồi Cali ơi, bụi cây: Đit me may cut khỏi mat tao"; msg.style.color = "#ff4757";
-                    }
-                    setTimeout(() => {
-                        cur = (cur + 1) % data.length;
-                        load(); msg.innerText = '';
-                    }, 1200);
-                };
-                b.appendChild(btn);
-            });
+    let cur = 0;
+    let score = 0;
+
+    function load() {
+        if (cur >= data.length) {
+            showResult();
+            return;
         }
-        load();
-    </script>
+
+        const item = data[cur];
+        document.getElementById('stat').innerText = `CÂU HỎI: ${cur + 1} / ${data.length}`;
+        document.getElementById('q').innerText = item.q;
+        
+        const b = document.getElementById('btns');
+        b.innerHTML = '';
+        
+        item.a.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'ans-btn';
+            btn.innerText = opt;
+            btn.onclick = () => {
+                const msg = document.getElementById('msg');
+                if (i === item.c) {
+                    score++;
+                    msg.innerText = "ĐÚNG RỒI CALI CON CAC";
+                    msg.style.color = "#2ecc71";
+                } else {
+                    msg.innerText = "SAI RỒI CALI ƠI! MÀY VÔ CHI HẢ THẰNG CHÓ";
+                    msg.style.color = "#ff4757";
+                }
+                
+                // Khóa nút bấm để tránh spam
+                const buttons = document.querySelectorAll('.ans-btn');
+                buttons.forEach(btn => btn.disabled = true);
+
+                setTimeout(() => {
+                    cur++;
+                    msg.innerText = '';
+                    load();
+                }, 1000);
+            };
+            b.appendChild(btn);
+        });
+    }
+
+    function showResult() {
+        const area = document.getElementById('game-area');
+        let rank = "";
+        let color = "";
+
+        const percent = (score / data.length) * 100;
+        if (percent >= 90) { rank = "YÊU NƯỚC QUÁ VỖ TAY VỖ TAY"; color = "#2ecc71"; }
+        else if (percent >= 70) { rank = "YÊU NƯỚC"; color = "#f1c40f"; }
+        else if (percent >= 50) { rank = "CỐ LÊN KHÔNG SAO ĐÂU (ĐỪNG CALI LÀ ĐƯỢC)"; color = "#3498db"; }
+        else { rank = "CALI RỒI  ĐỤ MÁ MÀY MÀY VÔ ĐÂY CHI !? NẤU NÓ THÔI ANH EM"; color = "#e74c3c"; }
+
+        area.innerHTML = `
+            <div class="result-card">
+                <h2 style="margin:0">TỔNG KẾT</h2>
+                <div class="score-num">${score}/${data.length}</div>
+                <p style="font-size:18px; font-weight:bold; color:${color}">${rank}</p>
+                <button class="ans-btn" style="background:#2ecc71; color:#000; font-weight:bold; margin-top:20px;" onclick="location.reload()">CHƠI LẠI TỪ ĐẦU</button>
+            </div>
+        `;
+        document.getElementById('stat').innerText = " CÓ YÊU NƯỚC KHÔNG ?";
+    }
+
+    load();
+</script>
+
 </body>
 </html>
