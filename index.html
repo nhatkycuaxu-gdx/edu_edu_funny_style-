@@ -3,130 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÓ PHẢI LÀ CALI ?</title>
+    <title> quiz nkcx v0.5</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #ffffff; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { max-width: 500px; width: 100%; background: #151515; padding: 25px; border-radius: 20px; border: 2px solid #2ecc71; box-shadow: 0 0 20px rgba(46, 204, 113, 0.2); }
-        h1 { color: #2ecc71; text-align: center; text-transform: uppercase; font-size: 22px; margin-bottom: 10px; }
-        .news-update { font-size: 14px; text-align: center; color: #888; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; 
-        .quiz-box { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; }
-        .stat-bar { font-size: 13px; color: #2ecc71; margin-bottom: 15px; font-weight: bold; }
-        #q { font-size: 18px; font-weight: bold; margin-bottom: 20px; line-height: 1.4; }
-        .ans-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; background: #2a2a2a; color: white; border: 1px solid #333; border-radius: 10px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .ans-btn:hover { background: #2ecc71; color: #000; font-weight: bold; border-color: #fff; }
-        #msg { height: 30px; font-weight: bold; font-size: 18px; margin-top: 15px; }
-
-        .result-card { animation: fadeIn 0.5s ease; }
-        .score-num { font-size: 50px; color: #2ecc71; font-weight: bold; margin: 15px 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #2D3436;
+            --light: #F7FFF7;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 4px solid var(--secondary);
+        }
+        h1 { color: var(--primary); text-align: center; font-size: 1.5rem; }
+        .quiz-box { margin-top: 20px; }
+        .question { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; min-height: 60px; }
+        .options { display: grid; gap: 10px; }
+        button {
+            padding: 12px;
+            border: 2px solid var(--secondary);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        button:hover { background: var(--secondary); color: white; transform: translateY(-2px); }
+        .score-board { margin-top: 20px; text-align: center; font-weight: bold; }
+        .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #FFE66D;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>BẢN TIN VÃI CẢ CHƯỞNG</h1>
-    <div class="news-update">Nóng: Tiệm phở Bảo vẫn đang rất đông khách vì ở đó được lọ với thằng bạn và có thịt chó loài cali ăn vô chết vì có 99,99% là muối!</div>
-
-    <div id="game-area" class="quiz-box">
-        <div class="stat-bar" id="stat">Đang tải câu hỏi...</div>
-        <p id="q"></p>
-        <div id="btns"></div>
-        <p id="msg"></p>
+    <div class="container">
+        <h1>CÓ PHẢI THIỂU NĂNG?</h1>
+        <div id="quiz" class="quiz-box">
+            <div id="category" class="category-tag">Đang tải...</div>
+            <div id="question" class="question">Câu hỏi sẽ hiện ở đây?</div>
+            <div id="options" class="options">
+                </div>
+        </div>
+        <div class="score-board">
+            Điểm của bạn: <span id="score">0</span>
+        </div>
     </div>
-</div>
 
-<script>
-    const data = [
-        {q: "Đỉnh núi cao nhất Nam Bộ?", a: ["Fansipan", "Bà Đen", "Mẫu Anh Đẹp Trai"], c: 1},
-        {q: "Ông Táo cưỡi con gì về trời?", a: ["Cá mập", "Con Cò", "Cá lóc"], c: 1},
-        {q: "Bánh chưng làm từ gạo gì?", a: ["Gạo tẻ", "Gạo lứt", "Gạo nếp"], c: 2},
-        {q: "Thủ đô của Việt Nam là?", a: ["Hà Nội", "TP.HCM", " Sài Lọ"], c: 0},
-        {q: "Tỉnh nào ở cực Nam Việt Nam?", a: ["Cà Mau", "xứ dở Bạc Liêu", "Kinh Kịch Phát Giang"], c: 0},
-        {q: "Núi Bà Đen thuộc tỉnh nào?", a: ["Như câu 3", "Tây Ninh", "Như Câu 1"], c: 1},
-        {q: "Bạn có phải là Cali không?", a: ["Có", "Không", "Có lẽ"], c: 0,1,2},
-        {q: "Sông nào dài nhất chảy qua VN?", a: ["Sông Hồng", "Sông Mê Kông", "Sông Mã Lai lấy au"], c: 1},
-        {q: "Vua cuối cùng của Việt Nam?", a: ["Bảo Đại", "Khải Định", "Minh Mạng"], c: 0},
-        {q: "Quốc hoa của Việt Nam là hoa gì?", a: ["Hoa Hồng", "Hoa Sen", "Hoa Mai"], c: 1},
-        {q: "1 + 1 bằng mấy?", a: ["1", "2", "3"], c: 1,2},
-        {q: "Sông có đôi là Sông gì ?", a: ["Sông Vàm Cọp ăn dáj", "Sông sợ ma", "Sông Vàm Cỏ"], c: 2},
-        {q: "CÓ YÊU NƯỚC KHÔNG", a: ["CÓ", " KHÔNG"], c: 0},
-        {q: "Mùa Hoa sữa là vào mùa nào?, a: ["Mùa Mọi thứ thành biển", "Mùa kẹt xe", "Mùa Thu", "MÙA YÊU NƯỚC"], c:2
-        {q: "Nước ta có bao nhiêu dân tộc anh em?", a: ["52", "54", "faboohk"], c: 1},
-        {q: "Thành phố ngàn hoa là?", a: ["Đà Lạt", "Cần Sa   Pha", "Huế"], c: 0},
-        {q: "CALI Kiêu gì?", a: ["Gâu Gâu", "Đua Càng", "Khác NƯỚC QUÁ"], c: 1,2},
-        {q: "Vịnh nào là di sản thế giới?", a: ["Vịnh Bắc Bộ", "Vịnh Hạ Long", "Vịnh Càm Rành"], c: 1},
-        {q: "Đảo lớn nhất Việt Nam?", a: ["Phú Quý", "Phú Quốc", "Đảo Bi Nhỏ"], c: 1}
-    ];
+    <script>
+        const quizData = [
+            {
+                category: "LỪA ĐẢO ONLINE",
+                q: "Ai đó gọi video cho bạn nhưng hình ảnh bị mờ, giật và đòi chuyển tiền gấp. Bạn làm gì?",
+                options: ["Chuyển tiền ngay vì sợ meoooooo", "Tắt máy, gọi lại bằng số điện thoại của thằng bạn", "Gửi thông tin thẻ ngân hàng của bố mẹ"],
+                a: 1      },
+            {
+                category: "AN TOÀN HỌC ĐƯỜNG",
+                q: "Nếu thấy bạn bè rủ rê chế pháo bằng diêm với hóa chất uảnium, bạn nên?",
+                options: ["Tham gia cho vui hẹ hẹ", "Im lặng đứng xem và lọ", "Khuyên ngăn và báo ngay cho chính phủ :)"],
+                a: 2
+            },
+            {
+                category: "ĐỊA LÝ",
+                q: "Đỉnh núi nào được mệnh danh là Nóc nhà Đông Dương?",
+                options: ["Fansipan", "Bà Đen(tao ỏblọ)", "Tam Đảo"],
+                a: 0
+            },
+            {
+                category: "KHOA HỌC",
+                q: "Nước sôi ở bao nhiêu độ C (trong điều kiện bình thường)?",
+                options: ["50 cái nhiệt độ", "99.9909999999999/100.2:) độ", "trà xanh 0 độ"],
+                a: 1
+            },
+            {
+                category: "PHÒNG CHỐNG BẮT CÓC",
+                q: "Một người lạ tự xưng là bạn của bố mẹ đến đón bạn ở trường, bạn nên?",
+                options: ["Đi theo luôn", "Đéo đi theo", "TÔI MỒ CÔI"],
+                a: 1
+            }
+        
+        ];
 
-    let cur = 0;
-    let score = 0;
+        let currentQuiz = 0;
+        let score = 0;
 
-    function load() {
-        if (cur >= data.length) {
-            showResult();
-            return;
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const categoryEl = document.getElementById('category');
+        const scoreEl = document.getElementById('score');
+
+        function loadQuiz() {
+            const currentData = quizData[currentQuiz];
+            categoryEl.innerText = currentData.category;
+            questionEl.innerText = currentData.q;
+            optionsEl.innerHTML = '';
+            
+            currentData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsEl.appendChild(btn);
+            });
         }
 
-        const item = data[cur];
-        document.getElementById('stat').innerText = `CÂU HỎI: ${cur + 1} / ${data.length}`;
-        document.getElementById('q').innerText = item.q;
-        
-        const b = document.getElementById('btns');
-        b.innerHTML = '';
-        
-        item.a.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'ans-btn';
-            btn.innerText = opt;
-            btn.onclick = () => {
-                const msg = document.getElementById('msg');
-                if (i === item.c) {
-                    score++;
-                    msg.innerText = "ĐÚNG RỒI CALI CON CAC";
-                    msg.style.color = "#2ecc71";
-                } else {
-                    msg.innerText = "SAI RỒI CALI ƠI! MÀY VÔ CHI HẢ THẰNG CHÓ";
-                    msg.style.color = "#ff4757";
-                }
-                
-                // Khóa nút bấm để tránh spam
-                const buttons = document.querySelectorAll('.ans-btn');
-                buttons.forEach(btn => btn.disabled = true);
+        function checkAnswer(selected) {
+            if(selected === quizData[currentQuiz].a) {
+                score++;
+                alert("Chuẩn luôn! 🎉");
+            } else {
+                alert("Tiếc quá, sai mất rồi! Ngu vãi!");
+            }
+            
+            scoreEl.innerText = score;
+            currentQuiz++;
 
-                setTimeout(() => {
-                    cur++;
-                    msg.innerText = '';
-                    load();
-                }, 1000);
-            };
-            b.appendChild(btn);
-        });
-    }
+            if(currentQuiz < quizData.length) {
+                loadQuiz();
+            } else {
+                alert("Chúc mừng! Bạn đã hoàn thành bài kiểm tra thiểu năng.");
+                currentQuiz = 0;
+                score = 0;
+                scoreEl.innerText = score;
+                loadQuiz();
+            }
+        }
 
-    function showResult() {
-        const area = document.getElementById('game-area');
-        let rank = "";
-        let color = "";
-
-        const percent = (score / data.length) * 100;
-        if (percent >= 90) { rank = "YÊU NƯỚC QUÁ VỖ TAY VỖ TAY"; color = "#2ecc71"; }
-        else if (percent >= 70) { rank = "YÊU NƯỚC"; color = "#f1c40f"; }
-        else if (percent >= 50) { rank = "CỐ LÊN KHÔNG SAO ĐÂU (ĐỪNG CALI LÀ ĐƯỢC)"; color = "#3498db"; }
-        else { rank = "CALI RỒI  ĐỤ MÁ MÀY MÀY VÔ ĐÂY CHI !? NẤU NÓ THÔI ANH EM"; color = "#e74c3c"; }
-
-        area.innerHTML = `
-            <div class="result-card">
-                <h2 style="margin:0">TỔNG KẾT</h2>
-                <div class="score-num">${score}/${data.length}</div>
-                <p style="font-size:18px; font-weight:bold; color:${color}">${rank}</p>
-                <button class="ans-btn" style="background:#2ecc71; color:#000; font-weight:bold; margin-top:20px;" onclick="location.reload()">CHƠI LẠI TỪ ĐẦU</button>
-            </div>
-        `;
-        document.getElementById('stat').innerText = " CÓ YÊU NƯỚC KHÔNG ?";
-    }
-
-    load();
-</script>
-
+        loadQuiz();
+    </script>
 </body>
 </html>
+
