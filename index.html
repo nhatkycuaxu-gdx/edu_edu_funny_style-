@@ -60,7 +60,7 @@
             document.getElementById('quiz-screen').style.display = 'block';
            
             aud.play().then(() => { aud.pause(); aud.currentTime = 0; }).catch(e => console.log);
-            }
+            
             show();
         }
 
@@ -75,9 +75,8 @@
                 setTimeout(() => {
                     renderContent(item);
                 }, 2000);
-            } else {
+            } else }{
                 renderContent(item);
-            }
         }
 
         function renderContent(item) {
