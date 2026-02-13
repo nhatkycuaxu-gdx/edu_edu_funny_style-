@@ -33,17 +33,17 @@
 
     <script>
         const data = [
-            {q: "Điện thoại báo bạn trúng iPhone 20 Pro Max 18 mắt từ 'Quà Tặng Miễn Phí', bạn làm gì?", o: ["Gửi địa chỉ nghịch bi tài xế", "Nhấn nút 'Xóa' và đi ngủ", "Hỏi xem có bán bom không?"]a: 1},
-            {q: "Con muỗi đốt bạn xong bạn thấy nó lăn ra chết, lý do là gì?", o: ["Do máu bạn quá 'độc'", "Do muỗi bị sốc nhiệt cớt", "Do bạn nạp thẻ mở giáp phản sát"]a: 0},
-            {q: "Mùng 1 Tết, thấy nhóm người lạ cầm bom banh đứng trước cửa và đốt. Bạn làm gì?", o: ["Mời vào xông đất cháy nhà chơi", "Đi méc công an", "Tham gia cho vui"a: 1]},
+            {q: "Điện thoại báo bạn trúng iPhone 20 Pro Max 18 mắt từ 'Quà Tặng Miễn Phí', bạn làm gì?", o: ["Gửi địa chỉ nghịch bi tài xế", "Nhấn nút 'Xóa' và đi ngủ", "Hỏi xem có bán bom không?"]},
+            {q: "Con muỗi đốt bạn xong bạn thấy nó lăn ra chết, lý do là gì?", o: ["Do máu bạn quá 'độc'", "Do muỗi bị sốc nhiệt cớt", "Do bạn nạp thẻ mở giáp phản sát"]},
+            {q: "Mùng 1 Tết, thấy nhóm người lạ cầm bom banh đứng trước cửa và đốt. Bạn làm gì?", o: ["Mời vào xông đất cháy nhà chơi", "Đi méc công an", "Tham gia cho vui"]},
             {q: "Bạn dành 2 ngày rưỡi code game và bị mẹ mắng 'suốt ngày cầm máy'. Bạn đáp?", o: ["Con xây dựng tương lai cho xã", "Con đang học làm hắc cơ lỏ", "Dạ con đi quét nhà ngay"]},
-            {q: "Người yêu cũ nhắn: 'Giao thừa này mình quay lại nhé'. Ý nghĩa thực sự là gì?", o: ["Nó còn yêu mình", "Mượn tiền đi chơi Tết với bồ mới", "Gửi nhầm danh sách broadcast"]a: 1},
-            {q: "Ông Táo Về Trời Bằng?", o: ["Niềm tin", "Cò và Ngựa", "Vét vô lòng"]a: 1},
-            {q: "Làm sao để có bánh tét để ăn?", o: ["Tự ngồi mà canh", "Nhờ AI tạo ảnh", "Mua bánh bị té xuống ao ta"]a: 1},
-            {q: "Thấy link 'Xem danh sách những người nói xấu bạn năm 2025', bạn sẽ?", o: ["Nhấn vào chửi nhau", "Kệ, mình vẫn đẹp trai/xinh gái", "Gửi link cho crush"]a:1},
-            {q: "Hết Tết mà tiền lì xì vẫn còn nguyên, bạn là ai?", o: ["Người nghèo nhất xã", "Người thao túng tâm lý mẹ", "Người trong bài 'Mộng Chiều Xuân'"]a: 1},
+            {q: "Người yêu cũ nhắn: 'Giao thừa này mình quay lại nhé'. Ý nghĩa thực sự là gì?", o: ["Nó còn yêu mình", "Mượn tiền đi chơi Tết với bồ mới", "Gửi nhầm danh sách broadcast"]1},
+            {q: "Ông Táo Về Trời Bằng?", o: ["Niềm tin", "Cò và Ngựa", "Vét vô lòng"]},
+            {q: "Làm sao để có bánh tét để ăn?", o: ["Tự ngồi mà canh", "Nhờ AI tạo ảnh", "Mua bánh bị té xuống ao ta"]},
+            {q: "Thấy link 'Xem danh sách những người nói xấu bạn năm 2025', bạn sẽ?", o: ["Nhấn vào chửi nhau", "Kệ, mình vẫn đẹp trai/xinh gái", "Gửi link cho crush"]},
+            {q: "Hết Tết mà tiền lì xì vẫn còn nguyên, bạn là ai?", o: ["Người nghèo nhất xã", "Người thao túng tâm lý mẹ", "Người trong bài 'Mộng Chiều Xuân'"]},
             {q: "Trong kênh YouTube 'Gia Đình Xù', 'Nhật ký của Xù' có bao nhiêu tập?", o: ["136", "16", "BỎ QUA"]},
-            {q: "Tại sao khi ăn bánh chưng lại thấy nặng bụng?", o: ["Do nếp kết dính cao", "Do mẹ nhét nhiều thịt mỡ", "Do trọng lực trái đất"]a: 0},
+            {q: "Tại sao khi ăn bánh chưng lại thấy nặng bụng?", o: ["Do nếp kết dính cao", "Do mẹ nhét nhiều thịt mỡ", "Do trọng lực trái đất"]},
             {q: "30 đang nghĩ về 'Mùa Xuân Năm Ấy' của kênh Gia đình Xù - BTT. Video đó là?", o: ["Bi kịch", "Truyện Ma có Thật (Cấm coi)", "Vui Lòng Nghỉ Chơi"]},
             {q: "Cầu Mong Vong hồn sớm được siêu thoát. Nam Mô A Di Đà Phật", o: ["Nguyện đem lòng thành kính Gởi theo đám mây hương...", ".Nam Mô A Di Đà Phật.", "Mẹ Cha còn sống Phật Đà hiện thân"]}
         ];
