@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz genz</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        #start-screen, #quiz-screen { text-align: center; padding: 20px; width: 100%; }
+        #quiz-screen { display: none; }
+        .vx { background: linear-gradient(to bottom, #200, #000); animation: flash 0.5s infinite; }
+        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+        button { background: #333; color: #fff; border: 1px solid #444; padding: 15px 30px; border-radius: 10px; font-size: 18px; cursor: pointer; width: 80%; max-width: 300px; margin: 10px; }
+        button:active { background: #555; }
+    </style>
+</head>
+<body id="b">
+
+    <div id="start-screen">
+        <h3>Câu hỏi Gen Z</h3>
+        <p>(Game này không xúc phạm đến kênh nào cả chơi để cho vui nha)</p>
+        <button onclick="batdau()">NHẤN ĐỂ VÀO Chơi</button>
+    </div>
+
+    <div id="quiz-screen">
+        <h2 id="q">Đang tải...</h2>
+        <div id="o"></div>
+    </div>
+
+    <script>
+        const data = [
+            {q: "Điện thoại báo trúng iPhone 20 Pro Max 18 mắt Nhấn đường link sau whw.cam.luadao.vo để nhận, hỏi bạn làm gì", o: ["Gửi địa chỉ", "Xóa", "Hỏi có bán bom không?"]},
+            {q: "Ông Táo Về Trời Bằng?", o: ["Niềm tin", "Cò và Ngựa", "Vét vô lòng"]},
+            {q: "Trên cột điện có mã QR dán lên với nội dung như sau ''Quét để nhận 0,000000000001 tỷ từ nhà nước Cali'' Bạn sẽ",  o:["Quét nhiệt tình vì đang nghèo", "Xóa mã QR và ghi thêm 'Cali con cặc'", "Quét thử có nổ máy không"]},
+            {q: "Mùa Hoa sữa là mùa nào?", o:["Mùa Thu", "Mùa kẹt xe", "Mùa lũ"]},
+            {q: "Một hình tam giác có ba cạnh vậy mối tình tam giác có bao nhiêu người khổ?", o:["Vả thế gió", "3", "ai hỏi"]},
+            {q: "'Ai hỏi là một câu hỏi mà người hỏi đang hỏi là ai đang hỏi mặc dù người đó đang hỏi là ai hỏi' mà vậy theo câu hỏi ai đang hỏi?", o:["Nghịch lý", "Ai hỏi", "không biết"]},
+            {q: "Hồ nào lớn nhất Hà Nội", o:["Thỏ Bảy Màu", "Hồ Tây", "Hồ Gươm"]},
+            {q: "Có người đang đánh lộn bạn sẽ?", o:["Coi ai thắng để đặt cược", "Đi méc công an", "Mở nhạc Tết Remix cho khí thế"]},
+            {q: "Tại sao hồi còn nhỏ lại không thấy ông kẹ?", o:["Có Thật đâu mà thấy", "Tại còn nhỏ", "Trong truyện thôi"]},
+            {q: "'Mùa Xuân Năm Ấy' của kênh 'Gia đình Xù - BTT' là thuộc thể loại?", o: ["Bi kịch có Thật", "Truyện Ma có Thật", "Vui Lòng Nghỉ Chơi"]},
+            {q: "Lưu ý những câu hỏi tiếp theo không có trong game", o:["Chơi Tiếp", "Thoát", "Hủy"]},
+            {q: "Bạn là một kẻ sát nhân bạn chọn thịt nào?", o:["người", "trẻ em","BỎ QUA"]},
+            {q: "Nghỉ Chơi đi", o:["Hãy chạy đi", "Đừng chơi nữa", "Nhấn vào đây"]},
+            {q: "Một chiếc xe tải đang lao tới bạn sẽ?", o:["Đứng im", "nhảy xuống cầu",  "nhảy xuống đường đá nhọn"]},
+            {q: "Bạn cảm thấy rất lạnh sau vụ tai nạn Bạn làm gì?", o:["Lấy Chăn đắp", "Lấy chiếu đắp","khỏi vì đang trong nhà xác"]},
+            {q: "bạn nghe tiếng gõ búa và tiếng chày", o:["...", "...", "..."]},
+            {q: "Bạn nghe lời nào đó", o:["tiếng ân tình", "Hay", "Tiếng tụng kinh"]},
+            {q: "Có người tỏa hương trước mặt bạn bạn sẽ van xin", o:["Đừng tỏa hương", "Gió hương bay che khuất người thương", "Đừng tụng kinh"]},
+            {q: "Sâu bọ trên người bạn trong áo quan", o:["...", "...", "..."]},
+            {q: "Cầu Mong Vong hồn siêu thoát...", o: ["Nam Mô...", "A Di Đà Phật", "Cha Mẹ còn sống Phật Đà hiện thân"]}
+        ];
+
+        let cur = 0;
+
+        function batdau() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            show();
+        }
+
+        function show() {
+            const item = data[cur];
+            document.getElementById('q').innerText = item.q;
+            const o = document.getElementById('o');
+            o.innerHTML = '';
+
+            if (cur >= 12) {
+                document.getElementById('b').className = 'vx';
+            }
+
+            item.o.forEach((txt) => {
+                const btn = document.createElement('button');
+                btn.innerText = txt;
+                btn.onclick = () => next();
+                o.appendChild(btn);
+            });
+        }
+
+        function next() {
+            cur++;
+            if (cur < data.length) {
+                show();
+            } else {
+                alert("Nam Mô A Di Đà Phật...");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
